@@ -4,7 +4,11 @@ from __future__ import print_function
 
 from ortools.sat.python import cp_model
 
-from bo import *
+from bo.player import Player
+from bo.match import Match
+from opt.constraintBuilder import *
+from opt.objectiveBuilder import *
+from opt.variableBuilder import *
 
 def SimpleSatProgram():
     """Minimal CP-SAT example to showcase calling the solver."""
@@ -32,9 +36,40 @@ def SimpleSatProgram():
         print('y = %i' % solver.Value(y))
         print('z = %i' % solver.Value(z))
 
-    player1 = player.Player("p1")
-    player2 = player.Player("p2")
+def SimpleMatchProgram():
+    """Minimal CP-SAT match."""
+    # Creates the model.
+    model = cp_model.CpModel()
+
+
+    player1 = Player("p1")
+    player2 = Player("p2")
     print(player1.name)
     print(player2.name)
 
-SimpleSatProgram()
+    match1 = Match("SH1", (player1, player2))
+    match2 = Match("SH2", (player1, player2))
+
+    maxRank = 3
+    nbcourt = 2
+    matchTime = 32
+    penTime = 15
+
+    matchVars = buildMatchVar(model, (match1, match2), maxRank)
+    penVars = buildPenalisationVar(model, maxRank)
+
+    buildNbCourtConstraint(model, matchVars, nbcourt, maxRank)
+    buildNonConcurrentMatchWithSamePlayerConstraint(model, matchVars)
+    buildPenalisationConstraint(model, matchVars, penVars, maxRank)
+
+    buildObjective(model, matchVars, penVars, matchTime, penTime)
+
+    # Creates a solver and solves the model.
+    solver = cp_model.CpSolver()
+    status = solver.Solve(model)
+
+    if status == cp_model.OPTIMAL:
+        for match in matchVars:
+            print(match.match.name+' : %i' % solver.Value(match.var) )
+
+SimpleMatchProgram()
