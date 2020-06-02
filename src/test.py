@@ -23,7 +23,7 @@ def SimpleMatchProgram():
 
     matches = readMatchJson("../data/matches.json", vectPlayers)
 
-    maxRank = 4
+    maxRank = len(matches)
     nbcourt = 2
     matchTime = 32
     penTime = 15

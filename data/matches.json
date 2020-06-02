@@ -14,7 +14,30 @@
 		]
 	},
 	{
+		"name": "SH3",
+		"players": [
+			"p1",
+			"p3"
+		]
+	},
+	{
+		"name": "SH4",
+		"players": [
+			"p2",
+			"p4"
+		]
+	},
+	{
 		"name": "DH1",
+		"players": [
+			"p1",
+			"p3",
+			"p4",
+			"p2"
+		]
+	},
+	{
+		"name": "DH2",
 		"players": [
 			"p1",
 			"p3",
