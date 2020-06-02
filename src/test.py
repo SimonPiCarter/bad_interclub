@@ -10,6 +10,9 @@ from opt.constraintBuilder import *
 from opt.objectiveBuilder import *
 from opt.variableBuilder import *
 
+from dto.matchReader import *
+from dto.playerReader import *
+
 def SimpleSatProgram():
     """Minimal CP-SAT example to showcase calling the solver."""
     # Creates the model.
@@ -42,20 +45,16 @@ def SimpleMatchProgram():
     model = cp_model.CpModel()
 
 
-    player1 = Player("p1")
-    player2 = Player("p2")
-    print(player1.name)
-    print(player2.name)
+    vectPlayers = readPlayerJson("../data/players.json")
 
-    match1 = Match("SH1", (player1, player2))
-    match2 = Match("SH2", (player1, player2))
+    matches = readMatchJson("../data/matches.json", vectPlayers)
 
-    maxRank = 3
+    maxRank = 4
     nbcourt = 2
     matchTime = 32
     penTime = 15
 
-    matchVars = buildMatchVar(model, (match1, match2), maxRank)
+    matchVars = buildMatchVar(model, matches, maxRank)
     penVars = buildPenalisationVar(model, maxRank)
 
     buildNbCourtConstraint(model, matchVars, nbcourt, maxRank)
@@ -71,5 +70,7 @@ def SimpleMatchProgram():
     if status == cp_model.OPTIMAL:
         for match in matchVars:
             print(match.match.name+' : %i' % solver.Value(match.var) )
+
+
 
 SimpleMatchProgram()
