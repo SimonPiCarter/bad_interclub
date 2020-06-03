@@ -1,0 +1,64 @@
+{
+	"matches":[
+		{
+			"name": "SH1",
+			"players": [
+				"p1",
+				"p2"
+			]
+		},
+		{
+			"name": "SH2",
+			"players": [
+				"p4",
+				"p3"
+			]
+		},
+		{
+			"name": "SH3",
+			"players": [
+				"p1",
+				"p3"
+			]
+		},
+		{
+			"name": "SH4",
+			"players": [
+				"p2",
+				"p4"
+			]
+		},
+		{
+			"name": "DH1",
+			"players": [
+				"p1",
+				"p3",
+				"p4",
+				"p2"
+			]
+		},
+		{
+			"name": "DH2",
+			"players": [
+				"p1",
+				"p3",
+				"p4",
+				"p2"
+			]
+		}
+	],
+	"players" : [
+		{
+			"name": "p2"
+		},
+		{
+			"name": "p1"
+		},
+		{
+			"name": "p3"
+		},
+		{
+			"name": "p4"
+		}
+	]
+}

@@ -10,6 +10,7 @@ from opt.constraintBuilder import *
 from opt.objectiveBuilder import *
 from opt.variableBuilder import *
 
+from dto.dataReader import *
 from dto.matchReader import *
 from dto.playerReader import *
 
@@ -19,9 +20,7 @@ def SimpleMatchProgram():
     model = cp_model.CpModel()
 
 
-    vectPlayers = readPlayerJson("../data/players.json")
-
-    matches = readMatchJson("../data/matches.json", vectPlayers)
+    (players, matches) = readDataJson("../data/data.json")
 
     maxRank = len(matches)
     nbcourt = 2

@@ -8,7 +8,14 @@ def readPlayerJson(file):
 
 	with open(file) as f:
 		data = json.load(f)
-		for elt in data:
-			players.append(Player(elt["name"]))
+		players = readPlayerData(data)
+
+	return players
+
+def readPlayerData(data):
+	players = []
+
+	for elt in data:
+		players.append(Player(elt["name"]))
 
 	return players
