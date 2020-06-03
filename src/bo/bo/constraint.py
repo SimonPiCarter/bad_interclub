@@ -17,6 +17,19 @@ class RankConstraint(Constraint):
 
     def __init__(self, name, matchName, matchRank):
         """Constructeur de notre classe"""
-        Constraint.__init__(name)
-        self.matchName
-        self.matchRank
+        Constraint.__init__(self, name)
+        self.matchName = matchName
+        self.matchRank = matchRank
+
+class OrderConstraint(Constraint):
+    """Classe définissant une contrainte imposant le premier match avant le second match par :
+    - son nom
+    - le nom du premier match
+    - le nom du second match"""
+
+
+    def __init__(self, name, firstMatch, secondMatch):
+        """Constructeur de notre classe"""
+        Constraint.__init__(self, name)
+        self.firstMatch = firstMatch
+        self.secondMatch = secondMatch

@@ -49,3 +49,43 @@ def buildPenalisationConstraint(model, matchVars, penVars, maxRank):
 				model.AddElement(minRank, penVars, penalisationValue)
 
 				model.Add(penalisationValue == 1).OnlyEnforceIf(matchSuccessive)
+
+def buildRankConstraint(model, matchVars, rankConstraints):
+	"""Méthode qui construit la contrainte imposant le rang du match"""
+	goalVars = []
+
+	for ctr in rankConstraints:
+		for matchVar in matchVars:
+			if ctr.matchName == matchVar.match.name:
+				goalBoolVar = model.NewBoolVar("isMatchRankOK_"+ctr.name)
+				model.Add(matchVar.var == ctr.matchRank).OnlyEnforceIf(goalBoolVar)
+				model.Add(matchVar.var != ctr.matchRank).OnlyEnforceIf(goalBoolVar.Not())
+
+				goalVar = model.NewIntVar(0, 1, "isMatchRankOk_Real_"+ctr.name)
+				goalVars.append(goalVar)
+				model.Add(goalVar == 1).OnlyEnforceIf(goalBoolVar)
+				model.Add(goalVar != 1).OnlyEnforceIf(goalBoolVar.Not())
+
+	return goalVars
+
+def buildOrderConstraint(model, matchVars, orderConstraints):
+	"""Méthode qui construit la contrainte imposant l'ordre entre deux matchs"""
+	goalVars = []
+
+	for ctr in orderConstraints:
+		for matchVar in matchVars:
+			if ctr.firstMatch == matchVar.match.name:
+				firstMatchVar = matchVar
+			if ctr.secondMatch == matchVar.match.name:
+				secondMatchVar = matchVar
+
+		goalBoolVar = model.NewBoolVar("isMatchOrderOK_"+ctr.name)
+		model.Add(firstMatchVar.var < secondMatchVar.var).OnlyEnforceIf(goalBoolVar)
+		model.Add(firstMatchVar.var >= secondMatchVar.var).OnlyEnforceIf(goalBoolVar.Not())
+
+		goalVar = model.NewIntVar(0, 1, "isMatchOrderOK_Real_"+ctr.name)
+		goalVars.append(goalVar)
+		model.Add(goalVar == 1).OnlyEnforceIf(goalBoolVar)
+		model.Add(goalVar != 1).OnlyEnforceIf(goalBoolVar.Not())
+
+	return goalVars

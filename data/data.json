@@ -60,5 +60,19 @@
 		{
 			"name": "p4"
 		}
+	],
+	"rankConstraints" : [
+		{
+			"name":"DH2_0",
+			"matchName": "DH2",
+			"matchRank": 0
+		}
+	],
+	"orderConstraints" : [
+		{
+			"name": "DH1_Before_SH1",
+			"firstMatch": "DH1",
+			"secondMatch": "SH1"
+		}
 	]
 }

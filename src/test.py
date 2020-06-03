@@ -20,12 +20,13 @@ def SimpleMatchProgram():
     model = cp_model.CpModel()
 
 
-    (players, matches) = readDataJson("../data/data.json")
+    (players, matches, rankConstraints, orderConstraints) = readDataJson("../data/data.json")
 
     maxRank = len(matches)
     nbcourt = 2
     matchTime = 32
     penTime = 15
+    goalCost = 10000
 
     matchVars = buildMatchVar(model, matches, maxRank)
     penVars = buildPenalisationVar(model, maxRank)
@@ -33,8 +34,10 @@ def SimpleMatchProgram():
     buildNbCourtConstraint(model, matchVars, nbcourt, maxRank)
     buildNonConcurrentMatchWithSamePlayerConstraint(model, matchVars)
     buildPenalisationConstraint(model, matchVars, penVars, maxRank)
+    goalRankVars = buildRankConstraint(model, matchVars, rankConstraints)
+    goalOrderVars = buildOrderConstraint(model, matchVars, orderConstraints)
 
-    buildObjective(model, matchVars, penVars, matchTime, penTime)
+    buildObjective(model, matchVars, penVars, matchTime, penTime, goalRankVars, goalOrderVars, goalCost)
 
     # Creates a solver and solves the model.
     solver = cp_model.CpSolver()
@@ -43,6 +46,10 @@ def SimpleMatchProgram():
     if status == cp_model.OPTIMAL:
         for match in matchVars:
             print(match.match.name+' : %i' % solver.Value(match.var) )
+        for var in goalRankVars:
+            print(var.Name()+' : %i' % solver.Value(var) )
+        for var in goalOrderVars:
+            print(var.Name()+' : %i' % solver.Value(var) )
 
 
 
