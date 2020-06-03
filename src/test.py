@@ -9,6 +9,7 @@ from bo.match import Match
 from opt.constraintBuilder import *
 from opt.objectiveBuilder import *
 from opt.variableBuilder import *
+from opt.solutionWriter import *
 
 from dto.dataReader import *
 from dto.matchReader import *
@@ -50,6 +51,7 @@ def SimpleMatchProgram():
             print(var.Name()+' : %i' % solver.Value(var) )
         for var in goalOrderVars:
             print(var.Name()+' : %i' % solver.Value(var) )
+        writeSolution("out.json", solver, matchVars, goalRankVars, goalOrderVars)
 
 
 
