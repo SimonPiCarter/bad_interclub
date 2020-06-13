@@ -31,9 +31,10 @@ def readDataJson(file):
 
 	with open(file) as f:
 		data = json.load(f)
+		nbCourt = data["nbCourt"]
 		players = readPlayerData(data["players"])
 		matches = readMatchData(data["matches"], players)
 		rankConstraints = readRankConstraintData(data["rankConstraints"])
 		orderConstraints = readOrderConstraintData(data["orderConstraints"])
 
-	return (players, matches, rankConstraints, orderConstraints)
+	return (nbCourt, players, matches, rankConstraints, orderConstraints)

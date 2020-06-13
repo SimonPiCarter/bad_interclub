@@ -2,6 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import argparse
+
 from ortools.sat.python import cp_model
 
 from bo.player import Player
@@ -20,11 +22,18 @@ def SimpleMatchProgram():
     # Creates the model.
     model = cp_model.CpModel()
 
+    parser = argparse.ArgumentParser(description='Process path to files.')
 
-    (players, matches, rankConstraints, orderConstraints) = readDataJson("../data/data.json")
+    parser.add_argument('--input', required=True,
+                help='Path to the input json.')
+    parser.add_argument('--output', required=False, default="out.json",
+                help='Path to the output json that will be generated.')
+
+    args = parser.parse_args()
+
+    (nbcourt, players, matches, rankConstraints, orderConstraints) = readDataJson(args.input)
 
     maxRank = len(matches)
-    nbcourt = 2
     matchTime = 32
     penTime = 15
     goalCost = 10000
@@ -51,7 +60,7 @@ def SimpleMatchProgram():
             print(var.Name()+' : %i' % solver.Value(var) )
         for var in goalOrderVars:
             print(var.Name()+' : %i' % solver.Value(var) )
-        writeSolution("out.json", solver, matchVars, goalRankVars, goalOrderVars)
+        writeSolution(args.output, solver, matchVars, goalRankVars, goalOrderVars)
 
 
 
