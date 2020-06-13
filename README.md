@@ -8,17 +8,17 @@ Il est conseillé de travailler dans un environnement virtual pour installer les
 
 https://docs.python.org/fr/3/library/venv.html
 
-Toutes les commandes suivantes sont à exécuter dans le répertoire principale du projet.
+Toutes les commandes suivantes sont à exécuter dans le répertoire principal du projet.
 
 ## installation des modules externes
 
-Le fichier requirements.txt source les dépendances externes requises.
+Le fichier requirements.txt liste les dépendances externes requises.
 
-Installer les dépendances générales : `pip install -r requirements.txt`
+Installer les dépendances externes : `pip install -r requirements.txt`
 
 ## script d'installation
 
-Les modules internes sont la principales raison pour justifier un environnement virtuels (ces modules s'installent dans l'environnement python et sont nécessaires au fonctionnement interne du script, il n'est donc d'aucun intérêt de les installer de manière globale). Pour installer
+Les modules internes sont la principale raison qui justifie un environnement virtuel (ces modules s'installent dans l'environnement python et sont nécessaires au fonctionnement interne du script, il n'est donc d'aucun intérêt de les installer de manière globale).
 
 Installer les dépendances internes : `./setup.sh`
 
@@ -41,4 +41,4 @@ isMatchRankOk_Real_DH2_0 : 1
 isMatchOrderOK_Real_DH1_Before_SH1 : 1
 ```
 
-Un fichier 'out.json' devrait avoir été généré.
+Un fichier `out.json` devrait avoir été généré.
